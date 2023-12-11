@@ -1,30 +1,42 @@
+/* eslint-disable no-undef */
+/* eslint-disable react/jsx-key */
+/* eslint-disable react/prop-types */
+import { format, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+
 import styles from './Post.module.css';
 import { Comment } from './Comment';
 import { Avatar } from './Avatar';
 
-export function Post() {
+export function Post({ author, publishedAt, content }) {
+  const publishedAtFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm", {
+    locale: ptBR,
+  });
+
+  const publishedAtDistance = formatDistanceToNow(publishedAt, { locale: ptBR, addSuffix: true });
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src="https://github.com/juliomalta.png" />
+          <Avatar src={author.avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>Julio Malta</strong>
-            <span>Software Engineer</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
 
-        <time title="23 de Novembro às 12h54" dateTime="2023-11-23">Publicado há 1h</time>
+        <time title={publishedAtFormatted} dateTime={publishedAt.toISOString()}>{publishedAtDistance}</time>
       </header>
 
       <div className={styles.content}>
-        <p>Fala galeraa</p>
-        <p>Acabei de subir mais um projeto no portfolio</p>
-        <p>👉 <a href=''>jane.design/doctorcare</a></p>
-        <p>
-          <a href=''>#novoprojeto </a> 
-          <a href=''>#nlw </a>
-          <a href=''>#rocketseat</a></p>
+        {content.map(line => {
+          if (line.type === 'text') {
+            return <p>{line.content}</p>;
+          } else if (line.type === 'link') {
+            return <p><a href="#">{line.content}</a></p>;
+        }
+      })}
       </div>
 
       <form className={styles.commentForm}>
