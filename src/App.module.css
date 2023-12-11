@@ -10,3 +10,13 @@
   gap: 2rem; 
   align-items: flex-start; /* alinha os itens no topo; mantém proporção dos cards */
 }
+
+@media (max-width: 768px) {
+  html {
+    font-size: 87.5%; /* 14px */
+  }
+
+  .wrapper {
+    grid-template-columns: 1fr; /* quando a tela for menor que 768px, o grid vai ter apenas uma coluna */
+  }
+}

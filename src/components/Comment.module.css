@@ -4,11 +4,11 @@
   gap: 1rem;
 }
 
-.comment > img {
+/* .comment > img {
   width: 3rem;
   height: 3rem;
   border-radius: 8px;
-}
+} */
 
 .commentBox {
   flex: 1;
@@ -85,7 +85,7 @@
 
 .commentBox footer button span::before {
   padding: 0 0.25rem;
-  content: "/2022";
+  content: "\2022";
 }
 
 .commentBox footer button svg {
