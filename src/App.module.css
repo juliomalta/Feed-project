@@ -1,0 +1,12 @@
+.wrapper {
+  max-width: 70rem;
+  justify-items: center;
+  /* place-items: center; */
+  margin: 2rem auto;
+  padding: 0 1rem; /* quando diminuir a tela, o conteúdo não fica colado na borda */
+  
+  display: grid;
+  grid-template-columns: 16rem 1fr; 
+  gap: 2rem; 
+  align-items: flex-start; /* alinha os itens no topo; mantém proporção dos cards */
+}
