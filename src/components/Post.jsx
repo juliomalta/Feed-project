@@ -3,17 +3,39 @@
 /* eslint-disable react/prop-types */
 import { format, formatDistanceToNow } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import { useState } from 'react';
 
 import styles from './Post.module.css';
 import { Comment } from './Comment';
 import { Avatar } from './Avatar';
 
 export function Post({ author, publishedAt, content }) {
+  const [comments, setComments] = useState([
+   'Comentário 1',
+  ])
+
+  const [newComment, setNewComment] = useState('')
+
   const publishedAtFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm", {
     locale: ptBR,
   });
 
   const publishedAtDistance = formatDistanceToNow(publishedAt, { locale: ptBR, addSuffix: true });
+
+  function handleAddComment(event) {
+    event.preventDefault();
+
+    setComments([...comments, newComment])
+    setNewComment('');
+  }
+
+  function handleNewComment(event) {
+    setNewComment(event.target.value);
+  }
+
+  function handleDelete(comment) {
+    console.log(`Deletar comentário ${comment}`)
+  }
 
   return (
     <article className={styles.post}>
@@ -32,17 +54,22 @@ export function Post({ author, publishedAt, content }) {
       <div className={styles.content}>
         {content.map(line => {
           if (line.type === 'text') {
-            return <p>{line.content}</p>;
+            return <p key={line.content}>{line.content}</p>;
           } else if (line.type === 'link') {
-            return <p><a href="#">{line.content}</a></p>;
+            return <p key={line.content}><a href="#">{line.content}</a></p>;
         }
       })}
       </div>
 
-      <form className={styles.commentForm}>
+      <form onSubmit={handleAddComment} className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
 
-        <textarea placeholder="Deixe um comentário" />
+        <textarea 
+        name="comment"
+        placeholder="Deixe um comentário" 
+        value={newComment}
+        onChange={handleNewComment}
+        />
 
         <footer>
           <button type="submit">Enviar comentário</button>
@@ -50,27 +77,16 @@ export function Post({ author, publishedAt, content }) {
         
       </form>
       <div className={styles.commentList}>
-        <Comment />
-        <Comment />
-        <Comment />
+        {comments.map(comment => {
+          return (
+            <Comment
+              key={comment} 
+              content={comment} 
+              onDelete={handleDelete} 
+            />
+          )
+        })}
       </div>
     </article>
   )
 }
-
-
-//   return (
-//     <article className="post">
-//       <header className="post-header">
-//         <img src="profile-image.jpg" alt="Profile Image" className="profile-image" />
-//         <div className="profile-info">
-//           <h2 className="profile-name">John Doe</h2>
-//           <p className="post-time">Posted 2 hours ago</p>
-//         </div>
-//       </header>
-//       <div className="post-body">
-//         {/* Post content goes here */}
-//       </div>
-//     </article>
-//   )
-// }
