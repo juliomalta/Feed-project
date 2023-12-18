@@ -11,7 +11,7 @@ import { Avatar } from './Avatar';
 
 export function Post({ author, publishedAt, content }) {
   const [comments, setComments] = useState([
-   'Comentário 1',
+   'Comentário 1. Você pode deletar clicando no ícone de lixeira', 'Você pode aplaudir clicando no ícone de mãozinha',
   ])
 
   const [newComment, setNewComment] = useState('')
