@@ -30,12 +30,22 @@ export function Post({ author, publishedAt, content }) {
   }
 
   function handleNewComment(event) {
+    event.target.setCustomValidity('');
     setNewComment(event.target.value);
   }
 
-  function handleDelete(comment) {
-    console.log(`Deletar comentário ${comment}`)
+  function handleInvalid(event) {
+    event.target.setCustomValidity('Você precisa escrever um comentário')
   }
+
+  function handleDelete(commentDeleting) {
+    const commentsWithoutDeleted = comments.filter(comment => {return comment !== commentDeleting;
+    })
+
+    setComments(commentsWithoutDeleted)
+  }
+
+  const isNewCommentEmpty = newComment.length === 0
 
   return (
     <article className={styles.post}>
@@ -69,10 +79,12 @@ export function Post({ author, publishedAt, content }) {
         placeholder="Deixe um comentário" 
         value={newComment}
         onChange={handleNewComment}
+        onInvalid={handleInvalid}
+        required
         />
 
         <footer>
-          <button type="submit">Enviar comentário</button>
+          <button type="submit" disabled={isNewCommentEmpty}>Enviar comentário</button>
         </footer>
         
       </form>

@@ -5,7 +5,6 @@ import { Trash, ThumbsUp } from 'phosphor-react';
 
 export function Comment( {content, onDelete } ) {
   function handleDelete() {
-    alert('Deletando comentário')
     onDelete(content)
 
   }
